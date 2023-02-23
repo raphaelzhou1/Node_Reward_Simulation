@@ -16,4 +16,6 @@ if __name__ == '__main__':
     TPS = Arithmetic_Brownian_Motion(100, 20, npaths, nsteps, t, T, 200).get_df(plot_expected=True)
     expected_price = 10
 
+    
+
     print(TPS)

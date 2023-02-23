@@ -21,11 +21,16 @@ class Arithmetic_Brownian_Motion:
     def get_paths(self):
         """Returns the paths, S, for the Arithmetic Brownian Motion using the Euler-Maruyama method"""
         dt = self.T/self.n_steps
+
+        # np.random.randn generates a n_paths (row) x n_steps ndarray of standard_normal random variables
+        # * means np.multiply(ndarray, ndarray)
         dW = np.sqrt(dt)*np.random.randn(self.n_paths, self.n_steps)
-        dS = self.mu*dt + self.sigma*dW
         
-        dS = np.insert(dS, 0, self.S_0, axis=1)
-        S = np.cumsum(dS, axis=1)
+        dS = self.mu*dt + self.sigma*dW # dS is a n_paths x n_steps ndarray of the increments of S
+        
+        dS = np.insert(dS, 0, self.S_0, axis=1) # add the initial value of S as first column of dS
+        S = np.cumsum(dS, axis=1) # such that all next columns are the cumulative sum of the previous columns
+        print(S)
         
         return S
     
@@ -46,7 +51,7 @@ class Arithmetic_Brownian_Motion:
     
     def get_df(self, plot_expected=False):
         """Returns a dataframe of the paths taken by the Arithmetic Brownian Motion"""
-        plotting_df = pd.DataFrame(self.get_paths().transpose())
+        plotting_df = pd.DataFrame(self.get_paths().transpose()) # transpose to n_steps (row) x n_paths ndarray
         if plot_expected==True:
             plotting_df["Expected Path"]=self.get_expectation()
         return plotting_df
@@ -585,7 +590,8 @@ if __name__ == '__main__':
     T = 1
     dt = T/nsteps
     t = np.arange(0, T+dt, dt)
-
+    
+    Arithmetic_Brownian_Motion(0.05, 0.4, npaths, nsteps, t, T, 200).simulate(plot_expected=True)
     df = Arithmetic_Brownian_Motion(0.05, 0.4, npaths, nsteps, t, T, 200).get_df(plot_expected=True)
 
     print(df)

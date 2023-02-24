@@ -40,9 +40,17 @@
 
 - Our Approach:
     - We only care about the regular, bad, and worst cases for now
-    - 
+    - Treat APR as a stochastic process, at each time t for some omega, we 
+    - Run the following algorithm:
 
 # Model Spec:
+- Monte Carlo:
+Calculate a n_step x n_path ndarray s.t. at each grid, it represents the APR of the network given a certain trajectory at certain time step
+
+Then, each APR is based on selections from other n_step x n_path ndarray of component variables that the APR is made of
+
+Based on this, we aggregate all the APR to assess, given certain modeled parameters, how well the network has done
+
 - APR:
 $ /frac{Expected-price-payoff * Node-reward-per-time}{Variable-cost-per-TPS + Fixed-cost-per-time + Stake-for-becoming-validator} $
 
@@ -70,3 +78,8 @@ Node-reward-per-time:
 Can change 1 day after last change
 Homogeneity assumption: Same for all active nodes; 0 for standby nodes
 Variable due to FDAO 
+
+# Interviews
+- Flavian: (1) Network for some TPS range, the necessary # of validators; (2) Bware Labs: reward full nodes (3) Blast https://houston.blastapi.io/ (4) Bare metal machine: better performance; cloud (5) Sui scaling: increase in TPS, not by increasing hardware, but entity composed by multiple machines (parallel processing) (6) Large validator companies: If bullish on Shardeum, may run based on expected price; retail: cash out quick (7) APR need 100% to cover loss if valued at 1b and goes down by 50%
+
+- Ravi Chamria !: (1) Node cost: hourly (not accounting for S:A), choose fixed monthly cost (not accounting for S:A); Zeeve considering making node cost variable (when price low, node price low s.t. network is APR-viable) (2) Node revenue: Inflationary / deflationary impact (burn)
